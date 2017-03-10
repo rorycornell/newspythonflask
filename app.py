@@ -37,7 +37,7 @@ def get_news():
     weather = get_weather(city)
     return render_template("home.html", articles=feed['entries'], weather=weather)
 #@app.route("/<publication>")
-#def get_news(publication="bbc"):
+#def get_news(publication="bbc"): 
 #    feed=feedparser.parse(RSS_FEEDS[publication])
 #    first_article=feed['entries'][0]
 #    return render_template("home.html", articles=feed['entries'])
