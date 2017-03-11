@@ -5,12 +5,16 @@
     <title>Headlines</title>
   </head>
   <body>
-    <h1>Headlines</h1>
     <h2>Current weather</h2>
-<p>City: <b>{{weather.city}}</b></p>
+<p>City: <b>{{weather.city}}, {{weather.country}}</b></p>
 <p>{{weather.description}} | {{weather.temperature}}&#8451;</p>
 <form action="/" method="POST">
   <input type="text" name="city" placeholder="weather search">
+  <input type="submit" value="Submit">
+</form>
+<p>The last trade price of {{stock}} is {{stockprice}}</b></p>
+<form action="/" method="POST">
+  <input type="text" name="ticker" placeholder="stock search">
   <input type="submit" value="Submit">
 </form>
 <h2>Headlines</h2>

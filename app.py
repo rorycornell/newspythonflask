@@ -2,6 +2,8 @@ import feedparser
 from flask import Flask, render_template, request
 import requests
 import json
+import urllib2
+from bs4 import BeautifulSoup
 app = Flask(__name__)
 
 RSS_FEEDS = {'bbc': 'http://feeds.bbci.co.uk/news/rss.xml',
@@ -17,9 +19,20 @@ def get_weather(location):
     parsed_weather_data = json.loads(r.text)
     weather = {"description":parsed_weather_data["weather"][0]["description"],
     "temperature":parsed_weather_data["main"]["temp"],
-    "city":parsed_weather_data["name"]
+    "city":parsed_weather_data["name"],
+    'country':parsed_weather_data['sys']['country']
     }
     return weather
+
+
+def getStockPrice(ticker):
+    response = urllib2.urlopen('http://www.nasdaq.com/symbol/%s' % ticker)
+    soup = BeautifulSoup(response, "html.parser")
+    stockprice = soup.find("div", {"id":"qwidget_lastsale"} )
+    return stockprice.text
+
+
+
 
 
 
@@ -35,9 +48,13 @@ def get_news():
     if not city:
         city = "Boston,Ma"
     weather = get_weather(city)
-    return render_template("home.html", articles=feed['entries'], weather=weather)
+    stock = request.form.get("ticker")
+    if not stock:
+        stock = "fonu"
+    stockprice = getStockPrice(stock)
+    return render_template("home.html", articles=feed['entries'], weather=weather, stockprice=stockprice, stock=stock)
 #@app.route("/<publication>")
-#def get_news(publication="bbc"): 
+#def get_news(publication="bbc"):
 #    feed=feedparser.parse(RSS_FEEDS[publication])
 #    first_article=feed['entries'][0]
 #    return render_template("home.html", articles=feed['entries'])
