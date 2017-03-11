@@ -16,6 +16,28 @@ RSS_FEEDS = {'bbc': 'http://feeds.bbci.co.uk/news/rss.xml',
 
 
 
+def gethnfrontpage():
+    response = urllib2.urlopen("https://news.ycombinator.com/news")
+    stories = []
+    soup = BeautifulSoup(response, "html.parser")
+    posts = soup.select(".storylink")
+    for post in posts:
+        #title = post.text
+        #link = post["href"]
+        stories.append({"title":post.text, "link":post["href"]})
+    return json.dumps(stories)
+
+
+#frontpage = gethnfrontpage()
+#parsed_json = json.loads(frontpage)
+#print(parsed_json[1]['title'])
+
+#for news in parsed_json:
+#    print news['title']
+#    print news['link']
+
+
+
 def get_weather(location):
     payload = {'q':location, 'units':'metric','appid':'cb932829eacb6a0e9ee4f38bfbf112ed'}
     r = requests.get('http://api.openweathermap.org/data/2.5/weather', params=payload)
@@ -35,6 +57,20 @@ def getStockPrice(ticker):
     return stockprice.text
 
 
+@app.route('/hn')
+def get_hn():
+    #return gethnfrontpage()
+    frontpage = gethnfrontpage()
+    #hn = json.loads(frontpage)
+    return render_template("hn.html", hn=json.loads(frontpage))
+
+    #frontpage = gethnfrontpage()
+    #parsed_json = json.loads(frontpage)
+    #print(parsed_json[1]['title'])
+
+    #for news in parsed_json:
+    #    print news['title']
+    #    print news['link']
 
 
 
