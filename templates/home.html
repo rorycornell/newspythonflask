@@ -1,8 +1,13 @@
+
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Headlines</title>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
   </head>
   <body>
     <h2>Current weather</h2>
@@ -19,7 +24,7 @@
 </form>
 <h2>Headlines</h2>
     <form action="/" method="POST">
-      <input type="text" name="publication" placeholder="search"/>
+      <input type="text" name="publication" placeholder="search for cnn, fox, or bbc"/>
       <input type="submit" name="" value="Submit">
     </form>
     {% for article in articles %}
